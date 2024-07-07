@@ -219,7 +219,7 @@ Widget cvWidget(
             )
           ],
         ),
-        SizedBox(height: 8,)
+        SizedBox(height: 10,)
       ],
     ),
   );
