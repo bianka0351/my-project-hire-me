@@ -21,12 +21,20 @@ class _SignUpPersonalInformationState extends State<SignUpPersonalInformation> {
     return Scaffold(
         body: Column(children: [
       Stack(alignment: AlignmentDirectional.center, children: [
-        Container(
-          width: double.infinity,
-          height: 260,
-          decoration: const BoxDecoration(
-            color: Color(0xff3a5d93),
-            ),
+        ClipPath(
+          clipper: ContainerClipper(),
+          child: Container(
+              width: double.infinity,
+              height: 260,
+              color: const Color(0xff3a5d93)),
+        ),
+        ClipPath(
+          clipper: ContainerClipper(),
+          child: Container(
+            width: double.infinity,
+            height: 250,
+            color: const Color(0xff3a5d93),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(45),
@@ -83,215 +91,220 @@ class _SignUpPersonalInformationState extends State<SignUpPersonalInformation> {
           child: Stack(
             children: [
               Container(
-                color:  Color(0xff2c2f34),
+                color: Color(0xff2c2f34),
               ),
               Padding(
                 padding: const EdgeInsets.all(35),
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      textFormFieldWidget(
-                          controller: experienceController,
-                          label: 'Years of Experience'),
-                      DropdownButtonFormField(
-                        dropdownColor: const Color(0xff1b1b1b),
-                        style: const TextStyle(color: Colors.white),
-                        hint: const Text('Scientific level',
-                            style: TextStyle(
-                              color: Color(0xffa6c5fe),
-                            )),
-                        items: [
-                          "Nothing",
-                          'Secondary Certificate',
-                          'Institute Certificate',
-                          'College Degree',
-                          'Diploma',
-                          'Master Degree',
-                          'Ph.D'
-                        ]
-                            .map((e) => DropdownMenuItem(
-                                  value: e,
-                                  child: Text(e),
-                                ))
-                            .toList(),
-                        onChanged: (val) {
-                          setState(() {
-                            selectedScientificLevel = val;
-                          });
-                        },
-                        value: selectedScientificLevel,
-                        decoration: const InputDecoration(
-                          fillColor: Color(0xff1b1b1b),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xffa6c5fe),
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xffe7895e),
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30))),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextField(
-                        style: const TextStyle(color: Colors.white),
-                        controller: dateController,
-                        decoration: const InputDecoration(
-                          label: Text('Select Date'),
-                          labelStyle: TextStyle(
-                            color: Color(0xffa6c5fe),
-                          ),
-                          filled: true,
-                          fillColor: Color(0xff1b1b1b),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xffa6c5fe),
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xffe7895e),
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30))),
-                        ),
-                        onTap: () async {
-                          DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1980),
-                              lastDate: DateTime(2025));
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: Column(
+                      children: [
 
-                          if (pickedDate != null) {
+                        DropdownButtonFormField(
+                          dropdownColor: const Color(0xff1b1b1b),
+                          style: const TextStyle(color: Colors.white),
+                          hint: const Text('Scientific level',
+                              style: TextStyle(
+                                color: Color(0xffa6c5fe),
+                              )),
+                          items: [
+                            "Nothing",
+                            'Secondary Certificate',
+                            'Institute Certificate',
+                            'College Degree',
+                            'Diploma',
+                            'Master Degree',
+                            'Ph.D'
+                          ]
+                              .map((e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e),
+                                  ))
+                              .toList(),
+                          onChanged: (val) {
                             setState(() {
-                              dateController.text =
-                                  pickedDate.toString().substring(0, 11);
+                              selectedScientificLevel = val;
                             });
-                          }
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: 350,
-                        height: 80,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color(0xff1b1b1b),
-                            border: Border.all(
-                              color: const Color(0xffa6c5fe),
-                            )),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Gender',
-                                style: TextStyle(
-                                    color: Color(0xffa6c5fe), fontSize: 17),
-                              ),
-                              const SizedBox(
-                                height: 3,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  malefemalewidget(
-                                    text: 'Male',
-                                    ontap: () {
-                                      ismale = true;
-                                      setState(() {});
-                                    },
-                                    text_color:ismale?const Color(0xff3a5d93): const Color(0xffa6c5fe),
-                                    container_color: ismale
-                                        ? Colors.white
-                                        : const Color(0xff2c2f34),
-                                  ),
-                                  malefemalewidget(
-                                    text: 'Female',
-                                    ontap: () {
-                                      ismale = false;
-                                      setState(() {});
-                                    },
-                                    text_color:ismale? const Color(0xffa6c5fe):const Color(0xff3a5d93),
-                                    container_color: ismale
-                                        ? const Color(0xff2c2f34)
-                                        : Colors.white,
-                                  ),
-                                ],
-                              )
-                            ],
+                          },
+                          value: selectedScientificLevel,
+                          decoration: const InputDecoration(
+                            fillColor: Color(0xff1b1b1b),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xffa6c5fe),
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xffe7895e),
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30))),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      DropdownButtonFormField(
-                        dropdownColor: const Color(0xff1b1b1b),
-                        style: const TextStyle(color: Colors.white),
-                        hint: const Text('Military Service',
-                            style: TextStyle(
-                              color: Color(0xffa6c5fe),
-                            )),
-                        items: [
-                          "Exempt (single allowance)",
-                          'Finished ',
-                          'By Service',
-                          'Delayed',
-                          'Feminine'
-                        ]
-                            .map((e) => DropdownMenuItem(
-                                  value: e,
-                                  child: Text(e),
-                                ))
-                            .toList(),
-                        onChanged: (val) {
-                          setState(() {
-                            selectedMilitaryService = val;
-                          });
-                        },
-                        value: selectedMilitaryService,
-                        decoration: const InputDecoration(
-                          fillColor: Color(0xff1b1b1b),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xffa6c5fe),
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xffe7895e),
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30))),
+                        const SizedBox(
+                          height: 20,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      button(
-                          text: 'continue',
-                          onpressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const HomeLayoutScreen()));
-                          })
-                    ],
+                        TextField(
+                          style: const TextStyle(color: Colors.white),
+                          controller: dateController,
+                          decoration: const InputDecoration(
+                            label: Text('Birthday'),
+                            labelStyle: TextStyle(
+                              color: Color(0xffa6c5fe),
+                            ),
+                            filled: true,
+                            fillColor: Color(0xff1b1b1b),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xffa6c5fe),
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xffe7895e),
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30))),
+                          ),
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1980),
+                                lastDate: DateTime(2025));
+
+                            if (pickedDate != null) {
+                              setState(() {
+                                dateController.text =
+                                    pickedDate.toString().substring(0, 11);
+                              });
+                            }
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          width: 350,
+                          height: 80,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: const Color(0xff1b1b1b),
+                              border: Border.all(
+                                color: const Color(0xffa6c5fe),
+                              )),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Gender',
+                                  style: TextStyle(
+                                      color: Color(0xffa6c5fe), fontSize: 17),
+                                ),
+                                const SizedBox(
+                                  height: 3,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    malefemalewidget(
+                                      text: 'Male',
+                                      ontap: () {
+                                        ismale = true;
+                                        setState(() {});
+                                      },
+                                      text_color: ismale
+                                          ? const Color(0xff3a5d93)
+                                          : const Color(0xffa6c5fe),
+                                      container_color: ismale
+                                          ? Colors.white
+                                          : const Color(0xff2c2f34),
+                                    ),
+                                    malefemalewidget(
+                                      text: 'Female',
+                                      ontap: () {
+                                        ismale = false;
+                                        setState(() {});
+                                      },
+                                      text_color: ismale
+                                          ? const Color(0xffa6c5fe)
+                                          : const Color(0xff3a5d93),
+                                      container_color: ismale
+                                          ? const Color(0xff2c2f34)
+                                          : Colors.white,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        DropdownButtonFormField(
+                          dropdownColor: const Color(0xff1b1b1b),
+                          style: const TextStyle(color: Colors.white),
+                          hint: const Text('Military Service',
+                              style: TextStyle(
+                                color: Color(0xffa6c5fe),
+                              )),
+                          items: [
+                            "Exempt (single allowance)",
+                            'Finished ',
+                            'By Service',
+                            'Delayed',
+                            'Feminine'
+                          ]
+                              .map((e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e),
+                                  ))
+                              .toList(),
+                          onChanged: (val) {
+                            setState(() {
+                              selectedMilitaryService = val;
+                            });
+                          },
+                          value: selectedMilitaryService,
+                          decoration: const InputDecoration(
+                            fillColor: Color(0xff1b1b1b),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xffa6c5fe),
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xffe7895e),
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30))),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        button(
+                            text: 'continue',
+                            onpressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                      const HomeLayoutScreen()));
+                            })
+                      ],
+                    ),
                   ),
                 ),
               )
@@ -382,9 +395,8 @@ Widget textFormFieldWidget(
 Widget button({required String text, required, required Function() onpressed}) {
   return Container(
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(15),
-color: const Color(0xffe7895e)
-    ),
+        borderRadius: BorderRadius.circular(15),
+        color: const Color(0xffe7895e)),
     clipBehavior: Clip.antiAlias,
     child: MaterialButton(
       onPressed: onpressed,
@@ -421,4 +433,22 @@ Widget malefemalewidget({
           ),
         )),
   );
+}
+
+class ContainerClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    double height = size.height;
+    double width = size.width;
+    var path = Path();
+    path.lineTo(0, height - 40);
+    path.quadraticBezierTo(width / 2, height, width, height - 40);
+    path.lineTo(width, 0);
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }

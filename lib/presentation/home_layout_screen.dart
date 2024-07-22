@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hireme/const/my_flutter_app_icons.dart';
+import 'package:hireme/presentation/cv-pages/basic-information/account-information/account-information.dart';
+import 'package:hireme/presentation/cv-pages/basic-information/personal-information/personal-information.dart';
+import 'package:hireme/presentation/cv-pages/basic-information/portfolio/portfolio.dart';
+import 'package:hireme/presentation/cv-pages/basic-information/upload-image/upload-image.dart';
+import 'package:hireme/presentation/cv-pages/your-qualification/education/education.dart';
+import 'package:hireme/presentation/cv-pages/your-qualification/experience/experience.dart';
 import 'package:hireme/presentation/screens/my_skills_screen.dart';
 import 'package:hireme/presentation/screens/opportunities-screen.dart';
 
@@ -25,6 +31,19 @@ class _HomeLayoutScreenState extends State<HomeLayoutScreen> {
     return Scaffold(
         backgroundColor: const Color(0xff2c2f34),
         appBar: AppBar(
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 40),
+              child: Builder(
+                  builder: (context) => IconButton(
+                        onPressed: () {
+                          Scaffold.of(context).openEndDrawer();
+                        },
+                        icon: const Icon(Icons.home),
+                        color: Colors.white,
+                      )),
+            ),
+          ],
           toolbarHeight: 110,
           automaticallyImplyLeading: false,
           backgroundColor: const Color(0xff2c2f34),
@@ -35,10 +54,11 @@ class _HomeLayoutScreenState extends State<HomeLayoutScreen> {
               height: 150,
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [Color(0xff3a5d93), Color(0xffe7895e)])),
+                  // gradient: LinearGradient(
+                  //     begin: Alignment.topLeft,
+                  //     end: Alignment.bottomRight,
+                  //     colors: [Color(0xff3a5d93), Color(0xffe7895e)])
+                  color: Color(0xff3a5d93)),
               child: Center(
                 child: Image.asset(
                   'assets/images/logo_name1.png',
@@ -107,15 +127,48 @@ class _HomeLayoutScreenState extends State<HomeLayoutScreen> {
                             horizontal: 30, vertical: 10),
                         child: Column(
                           children: [
-                           cvWidget(ontap: (){}, icon: Icons.lock_outline, text:    'Account Information '),
-                           cvWidget(ontap: (){}, icon: Icons.person, text:    'Personal Information '),
-                           cvWidget(ontap: (){}, icon: Icons.folder_copy_outlined, text:    'Portfolio '),
-                           cvWidget(ontap: (){}, icon: Icons.camera_alt_outlined, text:    'Upload Image'),
+                            cvWidget(
+                                ontap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              AccountInformation()));
+                                },
+                                icon: Icons.lock_outline,
+                                text: 'Account Information '),
+                            cvWidget(
+                                ontap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              PersonalInformation()));
+                                },
+                                icon: Icons.person,
+                                text: 'Personal Information '),
+                            cvWidget(
+                                ontap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Portfolio()));
+                                },
+                                icon: Icons.folder_copy_outlined,
+                                text: 'Portfolio '),
+                            cvWidget(
+                                ontap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => UploadImage()));
+                                },
+                                icon: Icons.camera_alt_outlined,
+                                text: 'Upload Image'),
                           ],
-
                         ),
                       ),
-                      Row(
+                      const Row(
                         children: [
                           Icon(
                             Icons.add_card_rounded,
@@ -134,12 +187,33 @@ class _HomeLayoutScreenState extends State<HomeLayoutScreen> {
                             horizontal: 30, vertical: 10),
                         child: Column(
                           children: [
-                            cvWidget(ontap: (){}, icon: MyFlutterApp.graduation_cap, text:    'Education '),
-                            cvWidget(ontap: (){}, icon: MyFlutterApp.award, text:    'Experience '),
-                            cvWidget(ontap: (){}, icon: Icons.language_outlined, text:    'Languages '),
-                            cvWidget(ontap: (){}, icon: Icons.keyboard_alt_rounded, text:    'Skills'),
+                            cvWidget(
+                                ontap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>  Education()));
+                                },
+                                icon: MyFlutterApp.graduation_cap,
+                                text: 'Education '),
+                            cvWidget(
+                                ontap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>  Experience()));
+                                },
+                                icon: MyFlutterApp.award,
+                                text: 'Experience '),
+                            cvWidget(
+                                ontap: () {},
+                                icon: Icons.language_outlined,
+                                text: 'Languages '),
+                            cvWidget(
+                                ontap: () {},
+                                icon: Icons.keyboard_alt_rounded,
+                                text: 'Skills'),
                           ],
-
                         ),
                       ),
                     ],
@@ -151,14 +225,15 @@ class _HomeLayoutScreenState extends State<HomeLayoutScreen> {
         ),
         bottomNavigationBar: Container(
           decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xff3a5d93), Color(0xffe7895e)])),
+              // gradient: LinearGradient(
+              //     begin: Alignment.topLeft,
+              //     end: Alignment.bottomRight,
+              //     colors: [Color(0xff3a5d93), Color(0xffe7895e)])
+              color: Color(0xff3a5d93)),
           child: BottomNavigationBar(
             currentIndex: currentIndex,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.black,
+            selectedItemColor: const Color(0xffe7895e),
+            unselectedItemColor: Colors.white,
             backgroundColor: Colors.transparent,
             elevation: 0,
             items: const [
@@ -209,17 +284,19 @@ Widget cvWidget(
           children: [
             Icon(
               icon,
-              color: Color(0xffa6c5fe),
+              color: const Color(0xffa6c5fe),
               size: 20,
             ),
-            SizedBox(width: 5),
+            const SizedBox(width: 5),
             Text(
               text,
-              style: TextStyle(fontSize: 15, color: Color(0xffa6c5fe)),
+              style: const TextStyle(fontSize: 15, color: Color(0xffa6c5fe)),
             )
           ],
         ),
-        SizedBox(height: 10,)
+        const SizedBox(
+          height: 10,
+        )
       ],
     ),
   );

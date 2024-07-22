@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hireme/presentation/authentication/sign_up/sign_up_basic_information.dart';
+
 class SignUp extends StatelessWidget {
   SignUp({super.key});
 
@@ -11,13 +12,23 @@ class SignUp extends StatelessWidget {
     return Scaffold(
         body: Column(children: [
       Stack(alignment: AlignmentDirectional.center, children: [
-        Container(
-          width: double.infinity,
-          height: 300,
-          color: const Color(0xff3a5d93),
+        ClipPath(
+          clipper: ContainerClipper(),
+          child: Container(
+              width: double.infinity,
+              height: 300,
+              color: const Color(0xff3a5d93)),
+        ),
+        ClipPath(
+          clipper: ContainerClipper(),
+          child: Container(
+            width: double.infinity,
+            height: 250,
+            color: const Color(0xff3a5d93),
+          ),
         ),
         Padding(
-            padding: const EdgeInsets.only(top: 50),
+            padding: const EdgeInsets.only(top: 20),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -33,7 +44,7 @@ class SignUp extends StatelessWidget {
                     'assets/images/logo_name1.png',
                     width: 350,
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 15),
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,9 +75,7 @@ class SignUp extends StatelessWidget {
                       companyemployeewidget(
                         text: 'COMPANY',
                         icon: Icons.apartment,
-                        ontap: () {
-
-                        },
+                        ontap: () {},
                         color: const Color(0xffa6c5fe),
                       ),
                       companyemployeewidget(
@@ -82,14 +91,15 @@ class SignUp extends StatelessWidget {
                       controller: userNameController, label: 'User Name'),
                   textFormFieldWidget(
                       controller: passwordController, label: 'Password'),
-                  const SizedBox(height:45),
+                  const SizedBox(height: 45),
                   button(
                       text: 'Create an account',
                       onpressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SignUpBasicInformation()));
+                                builder: (context) =>
+                                    const SignUpBasicInformation()));
                       })
                 ])))
           ]))
@@ -139,12 +149,12 @@ Widget textFormFieldWidget(
 Widget button({required String text, required, required Function() onpressed}) {
   return Container(
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(15),
-gradient: LinearGradient(
-begin: Alignment.topLeft,
-end: Alignment.bottomRight,
-colors: [Color(0xff3a5d93), Color(0xffe7895e)])
-    ),
+        borderRadius: BorderRadius.circular(15), color: Color(0xffe7895e)
+// gradient: LinearGradient(
+// begin: Alignment.topLeft,
+// end: Alignment.bottomRight,
+// colors: [Color(0xff3a5d93), Color(0xffe7895e)])
+        ),
     clipBehavior: Clip.antiAlias,
     child: MaterialButton(
       onPressed: onpressed,
@@ -168,7 +178,7 @@ Widget companyemployeewidget({
   return GestureDetector(
     onTap: ontap,
     child: Container(
-      padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.white,
@@ -191,4 +201,22 @@ Widget companyemployeewidget({
       ),
     ),
   );
+}
+
+class ContainerClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    double height = size.height;
+    double width = size.width;
+    var path = Path();
+    path.lineTo(0, height - 40);
+    path.quadraticBezierTo(width / 2, height, width, height - 40);
+    path.lineTo(width, 0);
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }

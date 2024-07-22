@@ -22,7 +22,6 @@ class _SignUpBasicInformationState extends State<SignUpBasicInformation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Column(
         children: [
           Stack(alignment: AlignmentDirectional.center, children: [
@@ -259,10 +258,11 @@ Widget button({required String text, required, required Function() onpressed}) {
   return Container(
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xff3a5d93), Color(0xffe7895e)])),
+// gradient: LinearGradient(
+//     begin: Alignment.topLeft,
+//     end: Alignment.bottomRight,
+//     colors: [Color(0xff3a5d93), Color(0xffe7895e)])
+        color: Color(0xffe7895e)),
     clipBehavior: Clip.antiAlias,
     child: MaterialButton(
       onPressed: onpressed,

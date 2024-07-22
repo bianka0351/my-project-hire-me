@@ -167,11 +167,12 @@ Widget textFormField(
 Widget button({required String text, required, required Function() onpressed}) {
   return Container(
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10),
-gradient: LinearGradient(
-begin: Alignment.topLeft,
-end: Alignment.bottomRight,
-colors: [Color(0xff3a5d93), Color(0xffe7895e)])
+       borderRadius: BorderRadius.circular(10),
+// gradient: LinearGradient(
+// begin: Alignment.topLeft,
+// end: Alignment.bottomRight,
+// colors: [Color(0xff3a5d93), Color(0xffe7895e)])
+color: Color(0xffe7895e)
     ),
     clipBehavior: Clip.antiAlias,
     child: MaterialButton(
