@@ -1,4 +1,7 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hireme/presentation/authentication/bloc/auth_bloc.dart';
 import 'package:hireme/presentation/introduction.dart';
 
 void main() {
@@ -10,9 +13,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-     home:Introduction()
+    return BlocProvider<AuthBloc>(
+      create: (context)=>AuthBloc(),
+
+      child:  MaterialApp(
+        builder: BotToastInit(),
+        debugShowCheckedModeBanner: false,
+       home:Introduction()
+      ),
     );
   }
 }

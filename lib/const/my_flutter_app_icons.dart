@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/MyFlutterApp.ttf
 ///
-/// 
+///
 /// * Linecons, Copyright (C) 2013 by Designmodo
 ///         Author:    Designmodo for Smashing Magazine
 ///         License:   CC BY ()

@@ -6,6 +6,8 @@ import 'package:hireme/presentation/cv-pages/basic-information/portfolio/portfol
 import 'package:hireme/presentation/cv-pages/basic-information/upload-image/upload-image.dart';
 import 'package:hireme/presentation/cv-pages/your-qualification/education/education.dart';
 import 'package:hireme/presentation/cv-pages/your-qualification/experience/experience.dart';
+import 'package:hireme/presentation/cv-pages/your-qualification/languages/languages.dart';
+import 'package:hireme/presentation/cv-pages/your-qualification/skills/skills.dart';
 import 'package:hireme/presentation/screens/my_skills_screen.dart';
 import 'package:hireme/presentation/screens/opportunities-screen.dart';
 
@@ -206,11 +208,21 @@ class _HomeLayoutScreenState extends State<HomeLayoutScreen> {
                                 icon: MyFlutterApp.award,
                                 text: 'Experience '),
                             cvWidget(
-                                ontap: () {},
+                                ontap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>  Languages()));
+                                },
                                 icon: Icons.language_outlined,
                                 text: 'Languages '),
                             cvWidget(
-                                ontap: () {},
+                                ontap: () {
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) =>  Skills()));
+                                },
                                 icon: Icons.keyboard_alt_rounded,
                                 text: 'Skills'),
                           ],

@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:hireme/presentation/authentication/sign_up/sign_up_personal_information.dart';
 
-class SignUpBasicInformation extends StatefulWidget {
-  const SignUpBasicInformation({super.key});
+import 'package:hireme/presentation/authentication/sign_up_user/sign_up_personal_information.dart';
+
+class SignUpBasicInformationUser extends StatefulWidget {
+  SignUpBasicInformationUser(
+      {super.key,
+      required this.userNameController,
+      required this.passwordController});
+
+  final String userNameController;
+  final String passwordController;
 
   @override
-  State<SignUpBasicInformation> createState() => _SignUpBasicInformationState();
+  State<SignUpBasicInformationUser> createState() =>
+      _SignUpBasicInformationUserState();
 }
 
-class _SignUpBasicInformationState extends State<SignUpBasicInformation> {
+class _SignUpBasicInformationUserState
+    extends State<SignUpBasicInformationUser> {
   final TextEditingController firstNameController = TextEditingController();
 
   final TextEditingController lastNameController = TextEditingController();
@@ -16,12 +25,13 @@ class _SignUpBasicInformationState extends State<SignUpBasicInformation> {
   final TextEditingController homeAdressController = TextEditingController();
 
   final TextEditingController emailController = TextEditingController();
-
+  GlobalKey<FormState> formState = GlobalKey();
   var selectedCity;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xff2c2f34),
       body: Column(
         children: [
           Stack(alignment: AlignmentDirectional.center, children: [
@@ -104,67 +114,86 @@ class _SignUpBasicInformationState extends State<SignUpBasicInformation> {
                   Padding(
                     padding: const EdgeInsets.all(35),
                     child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          textFormFieldWidget(
-                              controller: firstNameController,
-                              label: 'First Name'),
-                          textFormFieldWidget(
-                              controller: lastNameController,
-                              label: 'Last Name'),
-                          textFormFieldWidget(
-                              controller: homeAdressController,
-                              label: 'Home Adress'),
-                          textFormFieldWidget(
-                              controller: emailController, label: 'Email'),
-                          DropdownButtonFormField(
-                            dropdownColor: const Color(0xff1b1b1b),
-                            style: const TextStyle(color: Colors.white),
-                            hint: const Text('City',
-                                style: TextStyle(
-                                  color: Color(0xffa6c5fe),
-                                )),
-                            items: ["Damascus", 'Aleppo']
-                                .map((e) => DropdownMenuItem(
-                                      value: e,
-                                      child: Text(e),
-                                    ))
-                                .toList(),
-                            onChanged: (val) {
-                              setState(() {
-                                selectedCity = val;
-                              });
-                            },
-                            value: selectedCity,
-                            decoration: const InputDecoration(
-                              fillColor: Color(0xff1b1b1b),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                      child: Form(
+                        key: formState,
+                        child: Column(
+                          children: [
+                            textFormFieldWidget(
+                                controller: firstNameController,
+                                label: 'First Name'),
+                            textFormFieldWidget(
+                                controller: lastNameController,
+                                label: 'Last Name'),
+                            textFormFieldWidget(
+                                controller: homeAdressController,
+                                label: 'Home Adress'),
+                            textFormFieldWidget(
+                                controller: emailController, label: 'Email'),
+                            DropdownButtonFormField(
+                              dropdownColor: const Color(0xff1b1b1b),
+                              style: const TextStyle(color: Colors.white),
+                              hint: const Text('City',
+                                  style: TextStyle(
                                     color: Color(0xffa6c5fe),
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0xffe7895e),
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30))),
+                                  )),
+                              items: ["Damascus", 'Aleppo']
+                                  .map((e) => DropdownMenuItem(
+                                        value: e,
+                                        child: Text(e),
+                                      ))
+                                  .toList(),
+                              onChanged: (val) {
+                                setState(() {
+                                  selectedCity = val;
+                                });
+                              },
+                              value: selectedCity,
+                              decoration: const InputDecoration(
+                                fillColor: Color(0xff1b1b1b),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xffa6c5fe),
+                                    ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xffe7895e),
+                                    ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30))),
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          button(
-                              text: 'continue',
-                              onpressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SignUpPersonalInformation()));
-                              })
-                        ],
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            button(
+                                text: 'continue',
+                                onpressed: () {
+                                  if (formState.currentState!.validate()) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SignUpPersonalInformation(
+                                                  userNameController:
+                                                      widget.userNameController,
+                                                  passwordController:
+                                                      widget.passwordController,
+                                                  firstNameController:
+                                                      firstNameController.text,
+                                                  lastNameController:
+                                                      lastNameController.text,
+                                                  homeAdressController:
+                                                      homeAdressController.text,
+                                                  emailController:
+                                                      emailController.text,
+                                                  selectedCity: selectedCity,
+                                                )));
+                                  }
+                                })
+                          ],
+                        ),
                       ),
                     ),
                   )
@@ -222,9 +251,9 @@ Widget textFormFieldWidget(
       TextFormField(
         style: const TextStyle(color: Colors.white),
         controller: controller,
-        validator: (v) {
-          if (!(v!.contains('@'))) {
-            return 'please enter a valid';
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Please enter a valid';
           }
           return null;
         },
@@ -245,6 +274,7 @@ Widget textFormFieldWidget(
                 color: Color(0xffe7895e),
               ),
               borderRadius: BorderRadius.all(Radius.circular(30))),
+          errorBorder: const OutlineInputBorder(),
         ),
       ),
       const SizedBox(
@@ -262,7 +292,7 @@ Widget button({required String text, required, required Function() onpressed}) {
 //     begin: Alignment.topLeft,
 //     end: Alignment.bottomRight,
 //     colors: [Color(0xff3a5d93), Color(0xffe7895e)])
-        color: Color(0xffe7895e)),
+        color: const Color(0xffe7895e)),
     clipBehavior: Clip.antiAlias,
     child: MaterialButton(
       onPressed: onpressed,

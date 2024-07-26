@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hireme/presentation/authentication/login.dart';
+import 'package:hireme/presentation/on-boarding.dart';
 
 
 
@@ -13,9 +14,9 @@ class Introduction extends StatefulWidget {
 class _IntroductionState extends State<Introduction> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 20), () {
+    Future.delayed(const Duration(seconds: 10), () {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LogIn()));
+          context, MaterialPageRoute(builder: (context) => OnBoarding()));
     });
 
     // TODO: implement initState
