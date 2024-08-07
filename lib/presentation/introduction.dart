@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hireme/presentation/authentication/login.dart';
+import 'package:hireme/presentation/company/home_layout_screen_company.dart';
 import 'package:hireme/presentation/on-boarding.dart';
+
 
 
 

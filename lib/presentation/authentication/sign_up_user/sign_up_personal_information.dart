@@ -2,7 +2,8 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hireme/presentation/authentication/bloc/auth_bloc.dart';
-import 'package:hireme/presentation/home_layout_screen.dart';
+import 'package:hireme/presentation/user/home_layout_screen.dart';
+
 
 class SignUpPersonalInformation extends StatefulWidget {
   SignUpPersonalInformation({
@@ -239,7 +240,7 @@ class _SignUpPersonalInformationState extends State<SignUpPersonalInformation> {
                                 ),
                                 Container(
                                   width: 350,
-                                  height: 80,
+                                  height: 100,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(20),
                                       color: const Color(0xff1b1b1b),
@@ -261,7 +262,7 @@ class _SignUpPersonalInformationState extends State<SignUpPersonalInformation> {
                                               fontSize: 17),
                                         ),
                                         const SizedBox(
-                                          height: 3,
+                                          height: 10,
                                         ),
                                         Row(
                                           mainAxisAlignment:

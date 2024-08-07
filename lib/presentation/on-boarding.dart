@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hireme/presentation/authentication/login.dart';
 
+
 class OnBoarding extends StatefulWidget {
   const OnBoarding({super.key});
 

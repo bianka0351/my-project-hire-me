@@ -149,6 +149,7 @@ class _SignUpBasicInformationUserState
                               },
                               value: selectedCity,
                               decoration: const InputDecoration(
+                                filled: true,
                                 fillColor: Color(0xff1b1b1b),
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -288,10 +289,6 @@ Widget button({required String text, required, required Function() onpressed}) {
   return Container(
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-// gradient: LinearGradient(
-//     begin: Alignment.topLeft,
-//     end: Alignment.bottomRight,
-//     colors: [Color(0xff3a5d93), Color(0xffe7895e)])
         color: const Color(0xffe7895e)),
     clipBehavior: Clip.antiAlias,
     child: MaterialButton(

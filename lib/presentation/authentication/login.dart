@@ -6,7 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hireme/presentation/authentication/bloc/auth_bloc.dart';
 
 import 'package:hireme/presentation/authentication/sign_up_user/sign_up.dart';
-import 'package:hireme/presentation/home_layout_screen.dart';
+import 'package:hireme/presentation/user/home_layout_screen.dart';
+
 
 
 // ignore: must_be_immutable
