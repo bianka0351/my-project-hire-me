@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hireme/const/my_flutter_app_icons.dart';
 import 'package:hireme/presentation/user/screens/opportunities/opportunity_details.dart';
 
+
 class OpportunitiesScreen extends StatefulWidget {
   const OpportunitiesScreen({super.key});
 

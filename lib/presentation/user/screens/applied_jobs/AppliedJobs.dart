@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hireme/presentation/user/screens/opportunities/opportunity_details.dart';
+
+import '../opportunities/opportunity_details.dart';
+
 
 
 class AppliedJobs extends StatefulWidget {
