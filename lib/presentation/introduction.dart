@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hireme/const/app_keys.dart';
 import 'package:hireme/presentation/authentication/login.dart';
 import 'package:hireme/presentation/company/home_layout_screen_company.dart';
 import 'package:hireme/presentation/on-boarding.dart';
+import 'package:hireme/presentation/user/home_layout_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -16,12 +19,23 @@ class Introduction extends StatefulWidget {
 class _IntroductionState extends State<Introduction> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 10), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => OnBoarding()));
+    SharedPreferences.getInstance().then((value) {
+      final userId = value.getInt(AppKeys.userId);
+      Future.delayed(const Duration(seconds: 5), () {
+        if(userId==null) {
+          Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => OnBoarding()));
+        } else{
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HomeLayoutScreen())
+          );
+        }
+      });
     });
 
-    // TODO: implement initState
     super.initState();
   }
 
