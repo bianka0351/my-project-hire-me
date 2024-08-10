@@ -12,6 +12,9 @@ import 'package:hireme/presentation/user/screens/applied_jobs/AppliedJobs.dart';
 import 'package:hireme/presentation/user/screens/improvement/improvement_screen.dart';
 import 'package:hireme/presentation/user/screens/opportunities/opportunities-screen.dart';
 import 'package:hireme/presentation/user/screens/settings/settings_screen.dart';
+import 'package:hireme/repo/main_repo.dart';
+
+import '../../models/get_suitable_job_announcements_for_user/get_suitable_job_announcements_for_user.dart';
 
 class HomeLayoutScreen extends StatefulWidget {
   const HomeLayoutScreen({super.key});

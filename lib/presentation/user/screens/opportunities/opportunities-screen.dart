@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hireme/const/my_flutter_app_icons.dart';
+import 'package:hireme/models/get_all_branch_response/get_all_branch_response.dart';
+import 'package:hireme/models/get_all_skills_response/get_all_skills_response.dart';
 import 'package:hireme/presentation/user/screens/opportunities/opportunity_details.dart';
 
+import '../../../../models/get_suitable_job_announcements_for_user/get_suitable_job_announcements_for_user.dart';
+import '../../../../repo/main_repo.dart';
 
 class OpportunitiesScreen extends StatefulWidget {
   const OpportunitiesScreen({super.key});
@@ -15,6 +19,58 @@ class _OpportunitiesScreenState extends State<OpportunitiesScreen> {
   String selectedSalary = 'Any';
   String selectedCompany = 'Any';
   String selectedSkill = 'Any';
+
+  GetSuitableJobAnnouncementsForUser? jobs;
+  bool loading = false;
+
+  GetAllBranchResponse? branches;
+  List<String> branch = [];
+  GetAllSkillsResponse? skills;
+  List<String> skill = [];
+
+  fetchJobs() async {
+    var response = await MainRepo().getJobs();
+    setState(() {
+      jobs = response;
+      loading = true;
+    });
+  }
+
+  fetchBranch() async {
+    var response = await MainRepo().getBranches();
+    setState(() {
+      branches = response;
+      branch = List.generate(branches!.branches!.length, (i) => branches!.branches![i].name!);
+    });
+  }
+
+  fetchSkills() async {
+    var response = await MainRepo().getSkills();
+    setState(() {
+      skills = response;
+      skill = List.generate(skills!.skills!.length, (i) => skills!.skills![i].skillName!);
+    });
+  }
+
+  fetchFilteredJobs() async {
+    var response = await MainRepo().getFilteredJobs(
+        terms: selectedSkill,
+        salary: selectedSalary,
+        city: selectedCity,
+        branch: selectedCompany);
+    setState(() {
+      jobs = response;
+      loading = true;
+    });
+  }
+
+  @override
+  void initState() {
+    fetchJobs();
+    fetchBranch();
+    fetchSkills();
+    super.initState();
+  }
 
   Color containerColor = const Color(0xff1b1b1b);
 
@@ -39,7 +95,21 @@ class _OpportunitiesScreenState extends State<OpportunitiesScreen> {
                         containerColor = const Color(0xffe7895e);
                       });
                     },
-                    ['Any', 'City 1', 'City 2', 'City 3', 'City 4'],
+                    [
+                      "Damascus",
+                      "Aleppo",
+                      "Homs",
+                      "Hama",
+                      "Latakia",
+                      "Tartus",
+                      "Idlib",
+                      "Daraa",
+                      "Raqqa",
+                      "Deir ez-Zor",
+                      "Hasakah",
+                      "As-Suwayda",
+                      "Quneitra"
+                    ],
                   ),
                   filterDropdown(
                     'Salary',
@@ -52,14 +122,14 @@ class _OpportunitiesScreenState extends State<OpportunitiesScreen> {
                     ['Any', 'High -> Low', 'Low -> High'],
                   ),
                   filterDropdown(
-                    'Company',
+                    'Branch',
                     selectedCompany,
                     (String? newValue) {
                       setState(() {
                         selectedCompany = newValue!;
                       });
                     },
-                    ['Any', 'Company A', 'Company B', 'Company C'],
+                    branch,
                   ),
                   filterDropdown(
                     'Skill',
@@ -69,7 +139,7 @@ class _OpportunitiesScreenState extends State<OpportunitiesScreen> {
                         selectedSkill = newValue!;
                       });
                     },
-                    ['Any', 'Skill A', 'Skill B', 'Skill C'],
+                    skill,
                   ),
                 ],
               ),
@@ -77,166 +147,206 @@ class _OpportunitiesScreenState extends State<OpportunitiesScreen> {
           ),
           Padding(
               padding: const EdgeInsets.all(5),
-              child: Container(
-                height: 35,
-                width: 150,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: const Color(0xffe7895e),
-                  border: const Border(
-                    right: BorderSide(color: Color(0xffe7895e), width: 5),
+              child: InkWell(
+                onTap: () {
+                  fetchFilteredJobs();
+                },
+                child: Container(
+                  height: 35,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: const Color(0xffe7895e),
+                    border: const Border(
+                      right: BorderSide(color: Color(0xffe7895e), width: 5),
+                    ),
                   ),
+                  child: const Center(
+                      child: Text(
+                    'Apply Filters',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  )),
                 ),
-                child: const Center(
-                    child: Text(
-                  'Apply Filters',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                )),
               )),
           const SizedBox(height: 10),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 25, right: 25, bottom: 25),
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const OpportunityDetails()));
-                          },
-                          child: Container(
-                            height: 300,
-                            width: 400,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: const Color(0xff1b1b1b),
-                                border: const Border(
-                                    right: BorderSide(
-                                        color: Color(0xffe7895e), width: 5))),
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 25),
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    flex: 1,
+              child: loading
+                  ? jobs != null
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: 4,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const OpportunityDetails()));
+                                  },
+                                  child: Container(
+                                    height: 300,
+                                    width: 400,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: const Color(0xff1b1b1b),
+                                        border: const Border(
+                                            right: BorderSide(
+                                                color: Color(0xffe7895e),
+                                                width: 5))),
                                     child: Padding(
-                                      padding: EdgeInsets.only(top: 15),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 25),
+                                      child: Column(
                                         children: [
-                                          CircleAvatar(
-                                            backgroundImage: AssetImage(
-                                              'assets/images/loGo.jpeg',
+                                          Expanded(
+                                            flex: 1,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(top: 15),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  CircleAvatar(
+                                                    backgroundImage: AssetImage(
+                                                      'assets/images/loGo.jpeg',
+                                                    ),
+                                                    radius: 22,
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text('Back end developer',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 20))
+                                                ],
+                                              ),
                                             ),
-                                            radius: 22,
                                           ),
-                                          SizedBox(width: 10),
-                                          Text('Back end developer',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20))
+                                          Expanded(
+                                            flex: 2,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                        Icons
+                                                            .card_travel_outlined,
+                                                        color:
+                                                            Color(0xffa6c5fe)),
+                                                    SizedBox(width: 10),
+                                                    Text('Job Nature:',
+                                                        style: TextStyle(
+                                                            color: Color(
+                                                                0xffa6c5fe))),
+                                                    SizedBox(
+                                                      width: 20,
+                                                    ),
+                                                    Text(
+                                                        jobs!.jobs![index]
+                                                            .jobTitle!,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white))
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Icon(MyFlutterApp.award,
+                                                        color:
+                                                            Color(0xffa6c5fe)),
+                                                    SizedBox(width: 10),
+                                                    Text('Experience:',
+                                                        style: TextStyle(
+                                                            color: Color(
+                                                                0xffa6c5fe))),
+                                                    SizedBox(
+                                                      width: 20,
+                                                    ),
+                                                    Text(
+                                                        jobs!.jobs![index]
+                                                            .experience!,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white))
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                        Icons
+                                                            .access_time_outlined,
+                                                        color:
+                                                            Color(0xffa6c5fe)),
+                                                    SizedBox(width: 10),
+                                                    Text('Type of employment:',
+                                                        style: TextStyle(
+                                                            color: Color(
+                                                                0xffa6c5fe))),
+                                                    SizedBox(
+                                                      width: 20,
+                                                    ),
+                                                    Text('Full-time',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white))
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Column(
+                                              children: [
+                                                Text('Smart Solution',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                                Text(jobs!.jobs![index].branch!,
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                              ],
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ),
                                   ),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(Icons.card_travel_outlined,
-                                                color: Color(0xffa6c5fe)),
-                                            SizedBox(width: 10),
-                                            Text('Job Nature:',
-                                                style: TextStyle(
-                                                    color: Color(0xffa6c5fe))),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Text('IT and Engeneering ',
-                                                style: TextStyle(
-                                                    color: Colors.white))
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Icon(MyFlutterApp.award,
-                                                color: Color(0xffa6c5fe)),
-                                            SizedBox(width: 10),
-                                            Text('Experience:',
-                                                style: TextStyle(
-                                                    color: Color(0xffa6c5fe))),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Text('3 Years',
-                                                style: TextStyle(
-                                                    color: Colors.white))
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Icon(Icons.access_time_outlined,
-                                                color: Color(0xffa6c5fe)),
-                                            SizedBox(width: 10),
-                                            Text('Type of employment:',
-                                                style: TextStyle(
-                                                    color: Color(0xffa6c5fe))),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Text('Full-time',
-                                                style: TextStyle(
-                                                    color: Colors.white))
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Column(
-                                      children: [
-                                        Text('Smart Solution',
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                        Text('Aleppo',
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                )
+                              ],
+                            );
+                          })
+                      : Text(
+                          'There are no jobs',
+                        )
+                  : Column(
+                      children: [
+                        SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: CircularProgressIndicator(
+                            color: Color(0xffe7895e),
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        )
                       ],
-                    );
-                  }),
+                    ),
             ),
           )
         ],

@@ -1,8 +1,10 @@
 import 'package:hireme/const/app_keys.dart';
+import 'package:hireme/helper/shared_preferences_helper.dart';
 import 'package:hireme/unified_api/app_url.dart';
 import 'package:hireme/unified_api/post_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../app_config.dart';
 import '../models/auth_model.dart';
 
 class AuthDataSource {
@@ -12,9 +14,6 @@ class AuthDataSource {
       'password': password,
     }, uri: Uri.parse('${AppUrl.baseUrl}users/login/'), fromJson: authModelFromJson);
     final result = await postApi.callRequest();
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(AppKeys.userId, (result as AuthModel).userId ?? 0);
-
     return result;
   }
 
@@ -32,7 +31,7 @@ class AuthDataSource {
       "educationLevel": educationLevel,
       "gender": gender,
       "pahone_number": phone_number
-    }, uri: Uri.parse('http://192.168.43.120:8000/users/create/'), fromJson: authModelFromJson);
+    }, uri: Uri.parse('${AppConfig.BASE_URL}users/create/'), fromJson: authModelFromJson);
     final result = await postApi.callRequest();
     return result;
   }
