@@ -1,4 +1,5 @@
 import 'package:hireme/const/app_keys.dart';
+import 'package:hireme/unified_api/app_url.dart';
 import 'package:hireme/unified_api/post_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,7 +10,7 @@ class AuthDataSource {
     PostApi postApi = PostApi(body: {
       'username_or_email': username_or_email,
       'password': password,
-    }, uri: Uri.parse('http://192.168.43.40:8000/users/login/'), fromJson: authModelFromJson);
+    }, uri: Uri.parse('${AppUrl.baseUrl}users/login/'), fromJson: authModelFromJson);
     final result = await postApi.callRequest();
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(AppKeys.userId, (result as AuthModel).userId ?? 0);
