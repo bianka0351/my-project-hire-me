@@ -1,0 +1,40 @@
+{
+  "name": "",
+  "css_prefix_text": "",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "03437119d7375a2503386f6eee0b96e2",
+      "css": "clock",
+      "code": 59492,
+      "src": "linearicons"
+    },
+    {
+      "uid": "b6d7f268a3b157c7d6a03bdfd58aacc7",
+      "css": "graduation_cap",
+      "code": 61853,
+      "src": "fontawesome5"
+    },
+    {
+      "uid": "4b7f817f780705a5d267ad59e855da91",
+      "css": "graduation-cap",
+      "code": 59392,
+      "src": "linecons"
+    },
+    {
+      "uid": "b8e88705f42bd79580be828233c65da0",
+      "css": "money",
+      "code": 59393,
+      "src": "linecons"
+    },
+    {
+      "uid": "lnyme20kl7kh26it9yrqk7at10k6i0sf",
+      "css": "award",
+      "code": 59394,
+      "src": "modernpics"
+    }
+  ]
+}
