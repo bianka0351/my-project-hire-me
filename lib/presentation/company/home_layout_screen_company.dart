@@ -1,6 +1,6 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:hireme/presentation/company/edit_company_information.dart';
+import 'package:hireme/presentation/company/screens_company/edit_company/edit_company_information.dart';
 import 'package:hireme/presentation/company/screens_company/announcements/announcements.dart';
 import 'package:hireme/presentation/company/screens_company/candidates/candidates.dart';
 import 'package:hireme/presentation/company/screens_company/settings_company/settings_screen_company.dart';

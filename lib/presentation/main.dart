@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hireme/presentation/authentication/bloc/auth_bloc.dart';
 import 'package:hireme/presentation/introduction.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main()
-// async
-{
+late SharedPreferences prefs;
+
+void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
   // await EasyLocalization.ensureInitialized();
   // runApp(EasyLocalization(
@@ -17,6 +18,8 @@ void main()
   //     startLocale: Locale('en', 'US'),
   //     saveLocale: true,
   //     child: const MyApp()));
+  WidgetsFlutterBinding.ensureInitialized();
+  prefs = await SharedPreferences.getInstance();
   runApp(MyApp());
 }
 

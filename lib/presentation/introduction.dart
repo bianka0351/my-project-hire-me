@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hireme/const/app_keys.dart';
+import 'package:hireme/presentation/authentication/data/models/auth_model.dart';
 import 'package:hireme/presentation/authentication/login.dart';
 import 'package:hireme/presentation/company/home_layout_screen_company.dart';
 import 'package:hireme/presentation/on-boarding.dart';
 import 'package:hireme/presentation/user/home_layout_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-
-
 
 class Introduction extends StatefulWidget {
   const Introduction({super.key});
@@ -22,16 +20,14 @@ class _IntroductionState extends State<Introduction> {
     SharedPreferences.getInstance().then((value) {
       final userId = value.getInt(AppKeys.userId);
       Future.delayed(const Duration(seconds: 5), () {
-        if(userId==null) {
-          Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => OnBoarding()));
-        } else{
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      HomeLayoutScreen())
-          );
+        if (userId == null) {
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => OnBoarding()));
+        } else {
+          if (AuthModel.getAuthData().userType == 1) {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeLayoutScreen()));
+          } else {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeLayoutScreenCompany()));
+          }
         }
       });
     });
@@ -42,7 +38,6 @@ class _IntroductionState extends State<Introduction> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Center(
           child: Image.asset(
         'assets/images/background.jpg',

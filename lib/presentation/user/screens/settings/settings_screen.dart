@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hireme/presentation/introduction.dart';
+import 'package:hireme/presentation/main.dart';
 import 'package:hireme/presentation/user/screens/settings/about_us_page.dart';
 import 'package:hireme/presentation/user/screens/settings/my_cv_page.dart';
 import 'package:hireme/presentation/user/screens/settings/privacy_policy_page.dart';
-
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -58,15 +58,12 @@ class SettingsScreen extends StatelessWidget {
               ),
               onTap: () {},
             ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               button(text: 'English', onpressed: () {}),
-              const SizedBox(width:20),
+              const SizedBox(width: 20),
               button(text: 'Arabic', onpressed: () {}),
-
             ]),
-            const SizedBox(height:10),
+            const SizedBox(height: 10),
             const Divider(
               color: Color(0xffe7895e),
               endIndent: 30,
@@ -138,7 +135,8 @@ class SettingsScreen extends StatelessWidget {
                 color: Color(0xffe7895e),
                 size: 30,
               ),
-              onTap: () {
+              onTap: () async {
+                await prefs.clear();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const Introduction()),
@@ -169,21 +167,17 @@ class AppbarCustomClipper extends CustomClipper<Path> {
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
 
-Widget button(
-    {required String text, required, required Function()? onpressed}) {
+Widget button({required String text, required, required Function()? onpressed}) {
   return Container(
     height: 30,
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        color: const Color(0xffe7895e)),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25), color: const Color(0xffe7895e)),
     clipBehavior: Clip.antiAlias,
     child: MaterialButton(
       onPressed: onpressed,
       minWidth: 50,
       child: Text(
         text,
-        style: const TextStyle(
-            fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
+        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     ),
   );

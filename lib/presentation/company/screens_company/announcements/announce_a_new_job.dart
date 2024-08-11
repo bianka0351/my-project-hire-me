@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hireme/presentation/authentication/data/models/auth_model.dart';
 import 'package:hireme/presentation/company/home_layout_screen_company.dart';
+import 'package:hireme/presentation/company/screens_company/announcements/bloc/announcments_bloc.dart';
+import 'package:hireme/presentation/company/screens_company/announcements/praam/add_announcment_param.dart';
 
 class AnnounceANewJob extends StatefulWidget {
   const AnnounceANewJob({super.key});
@@ -16,10 +20,10 @@ class _AnnounceAJobState extends State<AnnounceANewJob> {
   final typeOfEmploymentController = TextEditingController();
   final jobDescriptionController = TextEditingController();
 
-  String? jobNatureSelected;
-  String? jobTitleSelected;
-  String? preferredToKnowSelected;
-  String? genderSelected;
+  final jobNatureSelected = TextEditingController();
+  final jobTitleSelected = TextEditingController();
+  final preferredToKnowSelected = TextEditingController();
+  final genderSelected = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +52,7 @@ class _AnnounceAJobState extends State<AnnounceANewJob> {
       backgroundColor: const Color(0xff2c2f34),
       body: Column(
         children: [
-          const Text('Announce A Job',
-              style: TextStyle(color: Color(0xffe7895e), fontSize: 25)),
+          const Text('Announce A Job', style: TextStyle(color: Color(0xffe7895e), fontSize: 25)),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -58,67 +61,32 @@ class _AnnounceAJobState extends State<AnnounceANewJob> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
-                      _buildDropdown(
+                      _buildTextFormField(
                         jobNatureSelected,
-                        (val) {
-                          setState(() {
-                            jobNatureSelected = val;
-                          });
-                        },
                         'Job Nature',
-                        ['IT', 'Education', 'Hospitality'],
                       ),
                       const SizedBox(height: 15),
-                      _buildDropdown(jobTitleSelected, (val) {
-                        setState(() {
-                          jobTitleSelected = val;
-                        });
-                      }, 'Job Title', [
-                        'Software Engineer',
-                        'Designer',
-                        'Product Manager',
-                        'QA Tester'
-                      ]),
+                      _buildTextFormField(jobTitleSelected, 'Job Title'),
                       const SizedBox(height: 15),
-                      _buildDropdown(
+                      _buildTextFormField(
                         preferredToKnowSelected,
-                        (val) {
-                          setState(() {
-                            preferredToKnowSelected = val;
-                          });
-                        },
                         'Preferred To Know',
-                        [
-                          'Communication',
-                          'Teamwork',
-                          'Problem-Solving',
-                          'Leadership'
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      _buildDropdown(
-                        genderSelected,
-                        (val) {
-                          setState(() {
-                            genderSelected = val;
-                          });
-                        },
-                        'Gender',
-                        ['Male', 'Female', 'Any'],
                       ),
                       const SizedBox(height: 15),
                       _buildTextFormField(
-                          educationalLevelController, 'Educational Level'),
+                        genderSelected,
+                        'Gender',
+                      ),
+                      const SizedBox(height: 15),
+                      _buildTextFormField(educationalLevelController, 'Educational Level'),
                       const SizedBox(height: 15),
                       _buildTextFormField(experienceController, 'Experience'),
                       const SizedBox(height: 15),
                       _buildTextFormField(salaryController, 'Salary'),
                       const SizedBox(height: 15),
-                      _buildTextFormField(
-                          typeOfEmploymentController, 'Type Of Employment'),
+                      _buildTextFormField(typeOfEmploymentController, 'Type Of Employment'),
                       const SizedBox(height: 15),
-                      _buildTextFormField(
-                          jobDescriptionController, 'Job Description'),
+                      _buildTextFormField(jobDescriptionController, 'Job Description'),
                       const SizedBox(height: 15),
                     ],
                   ),
@@ -128,15 +96,34 @@ class _AnnounceAJobState extends State<AnnounceANewJob> {
           ),
           Padding(
             padding: const EdgeInsets.all(20),
-            child: button(text: 'Add', onpressed: () {}),
+            child: button(
+              text: 'Add',
+              onpressed: () {
+                // context.read<AnnouncmentsBloc>().add(
+                //       AddNewJobAnnounce(
+                //         param: AddAnnouncmentParam(
+                //           job_title: jobTitleSelected.text,
+                //           job_description: jobDescriptionController.text,
+                //           branch_id: AuthModel.getAuthData().branchId!,
+                //           jobNature_id: jobNatureSelected.text,
+                //           gender: gender,
+                //           educationLevel: educationLevel,
+                //           type_of_employment: type_of_employment,
+                //           experience: experience,
+                //           salary: salary,
+                //           preferredToKnow: preferredToKnow,
+                //         ),
+                //       ),
+                //     );
+              },
+            ),
           )
         ],
       ),
     );
   }
 
-  Widget _buildTextFormField(TextEditingController controller, String labelText,
-      [bool isListView = false]) {
+  Widget _buildTextFormField(TextEditingController controller, String labelText, [bool isListView = false]) {
     return Container(
       height: isListView ? 100 : null, // Set height only if isListView is true
       child: TextFormField(
@@ -223,9 +210,7 @@ class _AnnounceAJobState extends State<AnnounceANewJob> {
 
 Widget button({required String text, required, required Function() onpressed}) {
   return Container(
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: const Color(0xffe7895e)),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: const Color(0xffe7895e)),
     clipBehavior: Clip.antiAlias,
     child: MaterialButton(
       onPressed: onpressed,
@@ -233,8 +218,7 @@ Widget button({required String text, required, required Function() onpressed}) {
       minWidth: 280,
       child: Text(
         text,
-        style: const TextStyle(
-            fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+        style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     ),
   );

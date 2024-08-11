@@ -4,8 +4,10 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hireme/presentation/authentication/bloc/auth_bloc.dart';
+import 'package:hireme/presentation/authentication/data/models/auth_model.dart';
 
 import 'package:hireme/presentation/authentication/sign_up_user/sign_up.dart';
+import 'package:hireme/presentation/company/home_layout_screen_company.dart';
 import 'package:hireme/presentation/user/home_layout_screen.dart';
 
 
@@ -30,12 +32,22 @@ class LogIn extends StatelessWidget {
         }
         else if (state is AuthSuccess){
           BotToast.closeAllLoading();
-          Navigator.pushReplacement(
+          if(AuthModel.getAuthData().userType == 1) {
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
+                  builder: (context) => 
                       HomeLayoutScreen())
-          );
+            );
+          } else if(AuthModel.getAuthData().userType == 2) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => 
+                      HomeLayoutScreenCompany())
+            );
+          }
+          
         }
         else{
           BotToast.closeAllLoading();

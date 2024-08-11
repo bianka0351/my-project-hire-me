@@ -19,10 +19,10 @@ class Appliers extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const CandidatesDetails()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => const CandidatesDetails(userId: ,)),
+                    // );
                   },
                   child: Container(
                     height: 150,

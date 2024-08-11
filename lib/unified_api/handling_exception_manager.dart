@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:hireme/unified_api/exceptions.dart';
 
-
 import 'failures.dart';
 
 mixin HandlingExceptionManager {
@@ -14,9 +13,13 @@ mixin HandlingExceptionManager {
     try {
       final right = await tryCall();
       return right;
-    } on ServerException catch (e) {
+    } on ServerException catch (e, s) {
+      print(e);
+      print(s);
       return Left(ServerFailure(message: e.message));
-    } catch (e) {
+    } catch (e, s) {
+      print(e);
+      print(s);
       return Left(ServerFailure(message: ".message"));
     }
   }

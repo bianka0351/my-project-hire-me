@@ -18,10 +18,10 @@ class MatchingCandidates extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CandidatesDetails()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => CandidatesDetails()),
+                    // );
                   },
                   child: Container(
                     height: 250,
@@ -78,8 +78,6 @@ class MatchingCandidates extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-
-
                                 ],
                               ),
                             ),
@@ -120,7 +118,10 @@ class MatchingCandidates extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xffe7895e),
                           ),
-                          child: const Text('Interview',style: TextStyle(color: Colors.white),),
+                          child: const Text(
+                            'Interview',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ],
                     ),

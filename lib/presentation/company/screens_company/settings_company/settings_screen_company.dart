@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hireme/presentation/introduction.dart';
+import 'package:hireme/presentation/main.dart';
 import 'package:hireme/presentation/user/screens/settings/about_us_page.dart';
 import 'package:hireme/presentation/user/screens/settings/privacy_policy_page.dart';
 
@@ -111,7 +112,8 @@ class SettingsScreenCompany extends StatelessWidget {
                 color: Color(0xffe7895e),
                 size: 30,
               ),
-              onTap: () {
+              onTap: () async {
+                await prefs.clear();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const Introduction()),
